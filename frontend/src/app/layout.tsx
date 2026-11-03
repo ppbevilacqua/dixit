@@ -1,7 +1,7 @@
 'use client'
 
 import './globals.css'
-import { Montserrat, Open_Sans } from 'next/font/google'
+import localFont from 'next/font/local'
 import { lang } from '@/i18n'
 import { t } from '@/i18n/shell'
 import Sidebar from '@/components/Sidebar'
@@ -30,15 +30,15 @@ import { ImportDialogProvider } from '@/contexts/ImportDialogContext'
 import { isAudioExtension, getAudioFormatsDisplayList } from '@/constants/audioFormats'
 
 
-// Design system fonts, self-hosted by next/font at build.
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['600', '700'],
+// Design system fonts, from the repo (same files as the banner): the build needs no network.
+const montserrat = localFont({
+  src: '../../public/fonts/montserrat-latin.woff2',
+  weight: '100 900',
   variable: '--font-montserrat',
 })
-const openSans = Open_Sans({
-  subsets: ['latin'],
-  weight: ['400', '600'],
+const openSans = localFont({
+  src: '../../public/fonts/open-sans-latin.woff2',
+  weight: '300 800',
   variable: '--font-open-sans',
 })
 
