@@ -1,8 +1,13 @@
 {
   "bundle": {
+    "targets": ["nsis"],
+    "createUpdaterArtifacts": false,
     "resources": {
       "templates": "templates",
       "binaries/onnxruntime": "."
+    },
+    "windows": {
+      "signCommand": null
     }
   }
 }
