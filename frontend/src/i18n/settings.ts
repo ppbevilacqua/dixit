@@ -3,7 +3,7 @@ import { makeT } from '.';
 // Settings area: page, tabs, automation, recordings, devices, transcription, summary, beta, language pickers.
 export const t = makeT({
   it: {
-    localOnly: "Dixit non invia statistiche d'uso. Audio e trascrizioni restano sul Mac; il testo esce solo se scegli un provider cloud per il riassunto.",
+    localOnly: "Dixit non invia statistiche d'uso. Audio e trascrizioni restano sul computer; il testo esce solo se scegli un provider cloud per il riassunto.",
     // Pagina e schede
     title: 'Impostazioni',
     back: 'Indietro',
@@ -53,10 +53,10 @@ export const t = makeT({
     diagnosticsSaved: 'Diagnostica Teams salvata',
     diagnosticsFailed: 'Diagnostica Teams non riuscita',
     agentsSection: 'Agenti',
-    agentsDesc: 'Gli agenti sul Mac (Claude Code, Claude Desktop) possono leggere la trascrizione della call in corso tramite MCP.',
+    agentsDesc: 'Gli agenti sul computer (Claude Code, Claude Desktop) possono leggere la trascrizione della call in corso tramite MCP.',
     mcpEnabled: 'Server MCP locale',
     mcpEnabledDesc: 'Spento: nessun agente può leggere la trascrizione.',
-    mcpListening: 'In ascolto su {url}, solo da questo Mac.',
+    mcpListening: 'In ascolto su {url}, solo da questo computer.',
     mcpError: 'Non avviato: {error}',
     mcpClaudeCode: '1. Claude Code',
     mcpClaudeCodeDesc: 'Esegui una volta nel terminale:',
@@ -117,7 +117,7 @@ export const t = makeT({
 
     // Trascrizione
     transcriptSection: 'Motore di trascrizione',
-    transcriptDesc: 'Le riunioni si trascrivono sul tuo Mac in due passaggi: uno veloce durante la call, uno accurato quando premi Termina.',
+    transcriptDesc: 'Le riunioni si trascrivono sul tuo computer in due passaggi: uno veloce durante la call, uno accurato quando premi Termina.',
     transcriptModel: 'Modello di trascrizione',
     transcriptLive: 'Trascrizione live',
     transcriptLiveDesc: 'Quella che vedi durante la call e che leggono gli agenti via MCP.',
@@ -199,7 +199,7 @@ export const t = makeT({
     hidePassword: 'Nascondi password',
   },
   en: {
-    localOnly: 'Dixit sends no usage analytics. Audio and transcripts stay on your Mac; the text leaves it only if you pick a cloud provider for the summary.',
+    localOnly: 'Dixit sends no usage analytics. Audio and transcripts stay on your computer; the text leaves it only if you pick a cloud provider for the summary.',
     // Page and tabs
     title: 'Settings',
     back: 'Back',
@@ -249,10 +249,10 @@ export const t = makeT({
     diagnosticsSaved: 'Teams diagnostics saved',
     diagnosticsFailed: 'Teams diagnostics failed',
     agentsSection: 'Agents',
-    agentsDesc: 'Agents on this Mac (Claude Code, Claude Desktop) can read the transcript of the current call through MCP.',
+    agentsDesc: 'Agents on this computer (Claude Code, Claude Desktop) can read the transcript of the current call through MCP.',
     mcpEnabled: 'Local MCP server',
     mcpEnabledDesc: 'Off: no agent can read the transcript.',
-    mcpListening: 'Listening on {url}, from this Mac only.',
+    mcpListening: 'Listening on {url}, from this computer only.',
     mcpError: 'Not started: {error}',
     mcpClaudeCode: '1. Claude Code',
     mcpClaudeCodeDesc: 'Run once in a terminal:',
@@ -313,7 +313,7 @@ export const t = makeT({
 
     // Transcription
     transcriptSection: 'Transcription engine',
-    transcriptDesc: 'Meetings are transcribed on this Mac in two passes: a fast one during the call, an accurate one when you press Stop.',
+    transcriptDesc: 'Meetings are transcribed on this computer in two passes: a fast one during the call, an accurate one when you press Stop.',
     transcriptModel: 'Transcription model',
     transcriptLive: 'Live transcript',
     transcriptLiveDesc: 'What you see during the call and what agents read via MCP.',

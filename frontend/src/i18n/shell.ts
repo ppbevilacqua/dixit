@@ -44,7 +44,7 @@ export const t = makeT({
     // About
     aboutTitle: 'Informazioni su Dixit',
     version: 'Versione {version}',
-    aboutDescription: 'Registra e trascrive le tue riunioni in locale: audio e testo restano sul Mac.',
+    aboutDescription: 'Registra e trascrive le tue riunioni in locale: audio e testo restano sul computer.',
     checkUpdates: 'Cerca aggiornamenti',
     checking: 'Ricerca in corso…',
     upToDate: "Hai già l'ultima versione",
@@ -126,7 +126,7 @@ export const t = makeT({
     copy: 'Copia',
     copied: 'Copiato',
     copyUserId: 'Copia ID utente',
-    analyticsLocal: 'Riunioni, trascrizioni e registrazioni restano private, sul tuo Mac.',
+    analyticsLocal: 'Riunioni, trascrizioni e registrazioni restano private, sul tuo computer.',
     privacyPolicy: 'Informativa privacy',
     adTitle: 'Cosa raccolgono le statistiche',
     adPrivacyBody:
@@ -200,7 +200,7 @@ export const t = makeT({
     // About
     aboutTitle: 'About Dixit',
     version: 'Version {version}',
-    aboutDescription: 'Records and transcribes your meetings locally: audio and text stay on your Mac.',
+    aboutDescription: 'Records and transcribes your meetings locally: audio and text stay on your computer.',
     checkUpdates: 'Check for updates',
     checking: 'Checking…',
     upToDate: 'You have the latest version',
@@ -282,7 +282,7 @@ export const t = makeT({
     copy: 'Copy',
     copied: 'Copied',
     copyUserId: 'Copy user ID',
-    analyticsLocal: 'Meetings, transcripts and recordings stay private, on your Mac.',
+    analyticsLocal: 'Meetings, transcripts and recordings stay private, on your computer.',
     privacyPolicy: 'Privacy policy',
     adTitle: 'What analytics collects',
     adPrivacyBody:
