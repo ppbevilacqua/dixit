@@ -713,6 +713,9 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # ort uses load-dynamic on Windows and the app bundles its own runtime (build/onnxruntime.rs):
+          # with this set ort-sys skips downloading and copying a second one (the copy breaks on Rust 1.100).
+          ORT_LIB_LOCATION: ${{ github.workspace }}/frontend/src-tauri/binaries/onnxruntime
           # Tauri updater signing (ALWAYS enabled for .sig files)
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
