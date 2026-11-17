@@ -7,12 +7,16 @@ try {
     throw new Error('Usage: node verify-portable-ggml.cjs <target/profile directory>');
   }
   const buildDirectory = resolve(process.argv[2], 'build');
-  const caches = existsSync(buildDirectory)
-    ? readdirSync(buildDirectory, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory() && entry.name.startsWith('whisper-rs-sys-'))
-      .map((entry) => join(buildDirectory, entry.name, 'out/build/CMakeCache.txt'))
-      .filter(existsSync)
+  // Cargo before 1.100: build/whisper-rs-sys-<hash>/out; from 1.100: build/whisper-rs-sys/<hash>/out.
+  const subdirs = (dir) => readdirSync(dir, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
+  const outDirs = existsSync(buildDirectory)
+    ? subdirs(buildDirectory).flatMap((name) => {
+      if (name.startsWith('whisper-rs-sys-')) return [join(buildDirectory, name, 'out')];
+      if (name === 'whisper-rs-sys') return subdirs(join(buildDirectory, name)).map((hash) => join(buildDirectory, name, hash, 'out'));
+      return [];
+    })
     : [];
+  const caches = outDirs.map((dir) => join(dir, 'build/CMakeCache.txt')).filter(existsSync);
   if (caches.length === 0) {
     throw new Error(`No Whisper CMake cache found in ${buildDirectory}`);
   }

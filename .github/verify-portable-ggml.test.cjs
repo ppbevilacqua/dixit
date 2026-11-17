@@ -39,6 +39,20 @@ test('checks an explicitly selected target and debug profile', (t) => {
   assert.equal(result.status, 0, result.stderr);
 });
 
+test('finds the cache in the Cargo 1.100 build layout', (t) => {
+  const result = runGuard(t, { 'target/release/build/whisper-rs-sys/abc123': portableCache });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('rejects an unsafe cache in the Cargo 1.100 build layout', (t) => {
+  const result = runGuard(t, {
+    'target/release/build/whisper-rs-sys/abc': portableCache,
+    'target/release/build/whisper-rs-sys/def': portableCache.replace('GGML_NATIVE:BOOL=OFF', 'GGML_NATIVE:BOOL=ON'),
+  });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /GGML_NATIVE must be explicitly OFF/);
+});
+
 test('rejects missing Whisper evidence even if another dependency is portable', (t) => {
   const result = runGuard(t, { 'target/release/build/llama-cpp-sys-abc': portableCache });
   assert.notEqual(result.status, 0);
