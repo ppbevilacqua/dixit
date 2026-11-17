@@ -11,6 +11,13 @@
 4. **Chiave dell'updater**:
    - privata in `~/.tauri/trascrivi.key`, senza password. Va fatto un backup: se si perde, i colleghi devono reinstallare a mano;
    - pubblica già inserita in `frontend/src-tauri/tauri.conf.json`.
+5. **Chiave dell'updater anche per Windows**: la stessa chiave privata va caricata come secret del repo, così la build Windows firma gli aggiornamenti:
+
+   ```bash
+   gh secret set TAURI_SIGNING_PRIVATE_KEY --repo cannoloops/dixit < ~/.tauri/trascrivi.key
+   ```
+
+   Senza il secret la release ha comunque l'installer Windows, ma su Windows non arrivano gli aggiornamenti automatici.
 
 ## Fare una release
 
@@ -48,6 +55,13 @@ Lo script:
 
 Fai il commit del cambio di versione.
 
+**Windows.** Alla pubblicazione della release parte da sola la GitHub Action `build-windows.yml`, che in circa 25 minuti:
+1. compila Dixit per Windows alla versione del tag (anche se il cambio di versione non è ancora committato);
+2. aggiunge alla release `Dixit_<versione>_x64-setup.exe` e la sua firma `.exe.sig`;
+3. aggiunge la voce `windows-x86_64` a `latest.json`, accanto a quella del Mac.
+
+Finché non finisce, i Windows non vedono ancora l'aggiornamento; i Mac lo vedono subito. Se fallisce, si rilancia da Actions › Build and Test - Windows › Re-run.
+
 `scripts/release.sh 0.2.0 --dry-run` fa la stessa build senza notarizzazione e senza pubblicare. Serve a verificare il bundle in locale.
 
 ### Note di build su questo Mac
@@ -63,6 +77,8 @@ Fai il commit del cambio di versione.
 3. Al primo avvio scarica i modelli (circa 9 GB), poi l'onboarding chiede i permessi di Microfono, Audio di sistema e Accessibilità.
 4. In Teams imposta la lingua parlata su italiano.
 5. Gli aggiornamenti successivi arrivano da soli.
+
+**Su Windows:** scarica `Dixit_<versione>_x64-setup.exe` dalla stessa release e avvialo (non è firmato: SmartScreen › Ulteriori informazioni › Esegui comunque). La registrazione si avvia a mano: l'avvio automatico con le call e i nomi da Teams per ora ci sono solo su Mac.
 
 Dixit convive con Meetily: dati in `~/Library/Application Support/com.vitomanuguerra.trascrivi`, registrazioni in `~/Documents/Dixit` (una cartella per riunione: `AAAA-MM-GG HH.MM titolo`).
 
