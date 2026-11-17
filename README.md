@@ -18,6 +18,7 @@ Dixit si accende da solo quando inizia una call su Teams, Zoom o Meet, trascrive
 - **Avvio e stop automatici:** registra quando inizia una call e si ferma quando finisce. Puoi anche avviare a mano.
 - **Trascrizione in due tempi:** testo live mentre si parla (Parakeet) e trascrizione definitiva, più precisa, a fine call (Whisper large-v3).
 - **Chi ha detto cosa:** nelle call Teams usa i nomi reali; altrimenti riconosce le voci e le distingue.
+- **Muto rispettato su Teams:** se sei in muto nella call, la tua voce non viene registrata né trascritta.
 - **Note durante la call:** scrivi una nota e premi Invio, e resta agganciata all'istante esatto. Le note compaiono dentro la trascrizione e aiutano il riassunto.
 - **Riassunto per tipo di call:** Dixit riconosce da solo il tipo di riunione e sceglie la forma:
   - **SAL:** minuta con l'avanzamento lavori (fatto, in corso, bloccato), decisioni, azioni con chi e quando, rischi.
@@ -34,7 +35,12 @@ Dixit si accende da solo quando inizia una call su Teams, Zoom o Meet, trascrive
 Serve un Mac con Apple Silicon (M1 o successivo), macOS 14.4 o superiore, circa 10 GB liberi e almeno 16 GB di RAM.
 
 1. Scarica il `.dmg` dall'[ultima versione](https://github.com/cannoloops/dixit/releases/latest), aprilo e trascina **Dixit** in **Applicazioni**.
-2. L'app non è notarizzata da Apple, quindi la prima volta macOS la blocca. Aprila con **tasto destro › Apri**, oppure da Terminale:
+2. L'app non è notarizzata da Apple, quindi la prima volta macOS la blocca con l'avviso *«Apple non è in grado di verificare…»* (sul `.dmg`, sull'app o su entrambi). Da macOS 15 «tasto destro › Apri» non basta più:
+   - nell'avviso premi **Fine**, non «Sposta nel Cestino»;
+   - apri **Impostazioni di Sistema › Privacy e sicurezza**, scorri fino a **Sicurezza** e premi **Apri comunque**;
+   - riapri il file e nel nuovo avviso premi di nuovo **Apri comunque**.
+
+   In alternativa, dal Terminale:
 
    ```bash
    xattr -dr com.apple.quarantine /Applications/Dixit.app
@@ -45,6 +51,8 @@ Serve un Mac con Apple Silicon (M1 o successivo), macOS 14.4 o superiore, circa 
    - **Accessibilità:** per leggere i nomi dei partecipanti da Teams.
 
 Gli aggiornamenti arrivano da soli; riunioni, impostazioni e modelli restano.
+
+La [guida di utilizzo](docs/GUIDA.md) spiega installazione, registrazione, note e riassunti passo per passo.
 
 ## Modelli
 

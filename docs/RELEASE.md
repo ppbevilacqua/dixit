@@ -14,6 +14,15 @@
 
 ## Fare una release
 
+Prima di tutto scrivi il changelog breve in testa a `docs/release-notes.md`, al posto di quello della release precedente:
+
+```markdown
+**Novità in 0.2.4**
+- una riga per novità, scritta per i colleghi (cosa cambia per loro, non come)
+```
+
+Senza quella riga lo script si ferma.
+
 Senza account Apple Developer (oggi):
 
 ```bash
@@ -50,7 +59,7 @@ Fai il commit del cambio di versione.
 ## Installazione
 
 1. Scarica il `.dmg` dall'ultima release di `cannoloops/dixit` e trascina Dixit in Applicazioni.
-2. La prima volta aprilo con tasto destro › Apri (non è notarizzato).
+2. Sblocco al primo avvio (non è notarizzato): Fine nell'avviso, poi Impostazioni di Sistema › Privacy e sicurezza › Apri comunque, oppure `xattr -dr com.apple.quarantine /Applications/Dixit.app`. Da macOS 15 «tasto destro › Apri» non basta più; dettagli in [GUIDA.md](GUIDA.md).
 3. Al primo avvio scarica i modelli (circa 9 GB), poi l'onboarding chiede i permessi di Microfono, Audio di sistema e Accessibilità.
 4. In Teams imposta la lingua parlata su italiano.
 5. Gli aggiornamenti successivi arrivano da soli.
@@ -62,7 +71,7 @@ Dixit convive con Meetily: dati in `~/Library/Application Support/com.vitomanugu
 Queste prove richiedono call vere e non sono automatizzate.
 
 - [ ] **Riunione Teams in calendario:**
-  - parte entro circa 10 s, compare il banner con **Annulla** e arriva la notifica;
+  - parte entro circa 10 s e compare il banner con **Annulla** (nessuna notifica di sistema);
   - si ferma entro 60 s dalla chiusura;
   - arriva la notifica "Trascrizione salvata".
 - [ ] **Chiamata Teams 1:1:** stesso comportamento.

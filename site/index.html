@@ -166,7 +166,7 @@ footer a { color: var(--soft); }
     <p class="lead">Non devi ricordarti di avviarlo. Dixit si accorge della call e a fine riunione ti lascia trascrizione e riassunto.</p>
     <ol class="steps">
       <li><h3>Inizia la call</h3><p>Dixit si accende da solo con Teams, Zoom o Meet, e si ferma quando la call finisce.</p></li>
-      <li><h3>Trascrizione live</h3><p>Il testo compare mentre si parla. Scrivi una nota e resta agganciata a quell'istante.</p></li>
+      <li><h3>Trascrizione live</h3><p>Il testo compare mentre si parla. Scrivi una nota e resta agganciata a quell'istante. Se sei in muto su Teams, la tua voce resta fuori.</p></li>
       <li><h3>Trascrizione definitiva</h3><p>A fine call Whisper large-v3 riscrive tutto, con più precisione.</p></li>
       <li><h3>Chi ha detto cosa</h3><p>Su Teams usa i nomi dei partecipanti, altrove riconosce le voci che conosce già.</p></li>
       <li><h3>Riassunto</h3><p>Capisce che tipo di riunione era e scrive il riassunto nella forma giusta.</p></li>
@@ -216,9 +216,10 @@ footer a { color: var(--soft); }
     <p class="lead">Servono circa 10 GB liberi: l'app è leggera, i modelli arrivano al primo avvio.</p>
     <ol class="install">
       <li><p>Scarica il file <code>.dmg</code> dall'<a href="https://github.com/cannoloops/dixit/releases/latest">ultima versione</a> e trascina Dixit in Applicazioni.</p></li>
-      <li><div><p>Dixit non è ancora notarizzato da Apple, quindi la prima volta macOS lo blocca. Aprilo con tasto destro › Apri, oppure dal Terminale:</p><pre><code>xattr -dr com.apple.quarantine /Applications/Dixit.app</code></pre></div></li>
+      <li><div><p>Dixit non è ancora notarizzato da Apple, quindi la prima volta macOS lo blocca con l'avviso «Apple non è in grado di verificare…». Premi <strong>Fine</strong>, non «Sposta nel Cestino». Poi apri <strong>Impostazioni di Sistema › Privacy e sicurezza</strong>, scorri fino a Sicurezza e premi <strong>Apri comunque</strong>; riapri il file e conferma di nuovo con <strong>Apri comunque</strong>. Se l'avviso torna all'avvio dell'app, ripeti. Oppure, dal Terminale:</p><pre><code>xattr -dr com.apple.quarantine /Applications/Dixit.app</code></pre></div></li>
       <li><p>Al primo avvio Dixit scarica i modelli e chiede tre permessi: microfono, registrazione dello schermo e dell'audio di sistema, Accessibilità per leggere i nomi da Teams.</p></li>
     </ol>
+    <p class="req">Tutti i passaggi, dalla prima registrazione al riassunto, sono nella <a href="https://github.com/cannoloops/dixit/blob/main/docs/GUIDA.md">guida di utilizzo</a>.</p>
   </div>
 </section>
 
