@@ -5,6 +5,9 @@ pub mod tracker;
 pub mod platform;
 #[cfg(target_os = "macos")]
 pub mod probe;
+#[cfg(windows)]
+#[path = "probe_windows.rs"]
+pub mod probe;
 
 use once_cell::sync::Lazy;
 use std::path::{Path, PathBuf};
@@ -69,7 +72,7 @@ pub fn session_title(raw: Option<String>, platform: Platform) -> String {
     title.chars().take(MAX_TITLE_CHARS).collect()
 }
 
-#[cfg(target_os = "macos")]
+#[cfg(any(target_os = "macos", windows))]
 async fn blocking<T: Send + 'static>(f: impl FnOnce() -> T + Send + 'static) -> Option<T> {
     tokio::task::spawn_blocking(f).await.ok()
 }
@@ -118,18 +121,18 @@ pub fn spawn<R: Runtime>(app: AppHandle<R>) {
                 }
             }
 
-            #[cfg(target_os = "macos")]
+            #[cfg(any(target_os = "macos", windows))]
             let obs = {
                 let session = current_session().map(|s| s.platform);
                 // A probe panic must not look like "call ended": keep the last observation.
                 blocking(move || probe::observe(session)).await.unwrap_or(last_obs)
             };
-            #[cfg(not(target_os = "macos"))]
+            #[cfg(not(any(target_os = "macos", windows)))]
             let obs = tracker::Observation::default();
             last_obs = obs;
 
             // Same app, different call (e.g. next meeting joined right after leaving the last).
-            #[cfg(target_os = "macos")]
+            #[cfg(any(target_os = "macos", windows))]
             if (tracker.is_auto_session() || tracker.is_suppressed()) && last_identity_check.elapsed() >= IDENTITY_CHECK {
                 last_identity_check = Instant::now();
                 if let Some(p) = obs.mic {
@@ -155,7 +158,7 @@ pub fn spawn<R: Runtime>(app: AppHandle<R>) {
                 Some(Action::Start(_)) if current_session().is_some() => seen_recording = false,
                 Some(Action::Start(p)) => {
                     seen_recording = false;
-                    #[cfg(target_os = "macos")]
+                    #[cfg(any(target_os = "macos", windows))]
                     {
                         identity = blocking(move || probe::call_title(p)).await.flatten().map(|t| (p, t));
                     }
@@ -205,9 +208,9 @@ fn stop_session<R: Runtime>(app: &AppHandle<R>, recording_started: bool) {
 
 /// Starts the recording from Rust (no page navigation, so unsaved edits in the UI survive).
 async fn start<R: Runtime>(app: &AppHandle<R>, platform: Platform) -> Result<(), String> {
-    #[cfg(target_os = "macos")]
+    #[cfg(any(target_os = "macos", windows))]
     let raw = blocking(move || probe::title_for(platform)).await.flatten();
-    #[cfg(not(target_os = "macos"))]
+    #[cfg(not(any(target_os = "macos", windows)))]
     let raw: Option<String> = None;
     let title = session_title(raw, platform);
     log::info!("Autopilot: {} call detected, starting '{}'", platform.label(), title);
@@ -236,7 +239,7 @@ async fn start<R: Runtime>(app: &AppHandle<R>, platform: Platform) -> Result<(),
 /// Teams captions and names, automatic stop when the call ends). The session is registered before
 /// the recorder starts, so the folder's metadata names the platform. None when no call is going on.
 pub async fn adopt_call() -> Option<Session> {
-    #[cfg(target_os = "macos")]
+    #[cfg(any(target_os = "macos", windows))]
     {
         if current_session().is_some() {
             return None; // the autopilot is already starting this call
@@ -253,7 +256,7 @@ pub async fn adopt_call() -> Option<Session> {
         *SESSION.lock().unwrap() = Some(session.clone());
         Some(session)
     }
-    #[cfg(not(target_os = "macos"))]
+    #[cfg(not(any(target_os = "macos", windows)))]
     None
 }
 
@@ -275,7 +278,8 @@ pub fn finish_adopt<R: Runtime>(app: &AppHandle<R>, session: Session, started: b
 
 /// Teams' own transcription is offered in the banner (Settings → Automazione), never started alone.
 fn offers_teams_transcription<R: Runtime>(app: &AppHandle<R>, platform: Platform) -> bool {
-    platform == Platform::Teams && settings::load(app).native_teams_transcription
+    // Starting it drives the Teams UI through macOS Accessibility: nothing to offer elsewhere.
+    cfg!(target_os = "macos") && platform == Platform::Teams && settings::load(app).native_teams_transcription
 }
 
 /// Stops the current recording and throws it away (audio, transcript, folder).

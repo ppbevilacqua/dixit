@@ -22,6 +22,9 @@ pub enum StreamBackend {
     CoreAudio {
         task: Option<tokio::task::JoinHandle<()>>,
     },
+    /// Process loopback of every app (Windows only)
+    #[cfg(target_os = "windows")]
+    ProcessLoopback(super::capture::process_loopback::ProcessLoopback),
 }
 
 // SAFETY: While Stream doesn't implement Send, we ensure it's only accessed
@@ -85,6 +88,16 @@ impl AudioStream {
         if use_core_audio {
             info!("🎵 Stream: Using Core Audio backend (cidre) for system audio");
             return Self::create_core_audio_stream(device, state, device_type, recording_sender).await;
+        }
+
+        // Windows: the default-output loopback misses apps playing on another device (Teams on a
+        // headset), so system audio comes from process loopback; CPAL stays as the fallback.
+        #[cfg(target_os = "windows")]
+        if device_type == DeviceType::System {
+            match Self::create_process_loopback_stream(device.clone(), state.clone(), recording_sender.clone()) {
+                Ok(stream) => return Ok(stream),
+                Err(e) => warn!("🎵 Stream: process loopback unavailable ({e}), using the default output loopback"),
+            }
         }
 
         // Default path: use CPAL
@@ -233,6 +246,27 @@ impl AudioStream {
         })
     }
 
+    /// System audio from every app except Dixit, on any output device (Windows only)
+    #[cfg(target_os = "windows")]
+    fn create_process_loopback_stream(
+        device: Arc<AudioDevice>,
+        state: Arc<RecordingState>,
+        recording_sender: Option<mpsc::UnboundedSender<super::recording_state::AudioChunk>>,
+    ) -> Result<Self> {
+        use super::capture::process_loopback::{ProcessLoopback, CHANNELS, SAMPLE_RATE};
+        let capture = AudioCapture::new(
+            device.clone(),
+            state,
+            SAMPLE_RATE,
+            CHANNELS,
+            DeviceType::System,
+            recording_sender,
+        );
+        let loopback = ProcessLoopback::start(move |data| capture.process_audio_data(data))?;
+        info!("🔊 Stream: process loopback started (all apps, any output device)");
+        Ok(Self { device, backend: StreamBackend::ProcessLoopback(loopback) })
+    }
+
     /// Build stream based on sample format
     fn build_stream(
         device: &Device,
@@ -343,6 +377,8 @@ impl AudioStream {
                     info!("Core Audio task aborted");
                 }
             }
+            #[cfg(target_os = "windows")]
+            StreamBackend::ProcessLoopback(loopback) => drop(loopback),
         }
 
         // Explicitly drop self.device Arc reference

@@ -78,7 +78,7 @@ Finché non finisce, i Windows non vedono ancora l'aggiornamento; i Mac lo vedon
 4. In Teams imposta la lingua parlata su italiano.
 5. Gli aggiornamenti successivi arrivano da soli.
 
-**Su Windows:** scarica `Dixit_<versione>_x64-setup.exe` dalla stessa release e avvialo (non è firmato: SmartScreen › Ulteriori informazioni › Esegui comunque). La registrazione si avvia a mano: l'avvio automatico con le call e i nomi da Teams per ora ci sono solo su Mac.
+**Su Windows:** scarica `Dixit_<versione>_x64-setup.exe` dalla stessa release e avvialo (non è firmato: SmartScreen › Ulteriori informazioni › Esegui comunque). L'avvio e lo stop automatici con le call Teams, Zoom e Meet funzionano anche su Windows, e l'audio di sistema prende tutte le app su qualsiasi dispositivo (anche Teams in cuffia). Restano solo su Mac i nomi e i sottotitoli da Teams e il pulsante per la trascrizione di Teams.
 
 Dixit convive con Meetily: dati in `~/Library/Application Support/com.vitomanuguerra.trascrivi`, registrazioni in `~/Documents/Dixit` (una cartella per riunione: `AAAA-MM-GG HH.MM titolo`).
 

@@ -7,6 +7,9 @@ pub mod backend_config;
 #[cfg(target_os = "macos")]
 pub mod core_audio;
 
+#[cfg(target_os = "windows")]
+pub mod process_loopback;
+
 // Re-export capture functionality
 pub use system::{
     SystemAudioCapture, SystemAudioStream,
