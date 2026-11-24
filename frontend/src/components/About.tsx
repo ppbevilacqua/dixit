@@ -32,7 +32,9 @@ export function About() {
             }
         } catch (error: any) {
             console.error('Failed to check for updates:', error);
-            toast.error(t('updateCheckFailed', { error: error?.message || t('unknownError') }));
+            // The Tauri updater rejects with a plain string, not an Error.
+            const message = typeof error === 'string' ? error : error?.message;
+            toast.error(t('updateCheckFailed', { error: message || t('unknownError') }));
         } finally {
             setIsChecking(false);
         }
