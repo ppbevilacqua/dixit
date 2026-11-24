@@ -126,12 +126,19 @@ jobs:
           } | ConvertTo-Json -Depth 4 | Set-Content -Path $configPath -Encoding utf8
           "args=--config `"$configPath`"" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
+      # CMake build dirs of llama.cpp/whisper.cpp in the cached target pin the CMake that made them:
+      # a runner image with a newer CMake breaks them, so the cache follows the CMake version.
+      - name: CMake version
+        id: cmake
+        shell: bash
+        run: echo "version=$(cmake --version | head -1 | awk '{print $3}')" >> "$GITHUB_OUTPUT"
+
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
           workspaces: ". -> target"
           prefix-key: windows-portable-v1
-          key: windows-x64-vulkan-v2
+          key: windows-x64-vulkan-v2-cmake-${{ steps.cmake.outputs.version }}
 
       - name: Install Vulkan SDK
         uses: humbletim/install-vulkan-sdk@v1.2
