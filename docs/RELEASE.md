@@ -28,7 +28,7 @@ Prima di tutto scrivi il changelog breve in testa a `docs/release-notes.md`, al 
 - una riga per novità, scritta per i colleghi (cosa cambia per loro, non come)
 ```
 
-Senza quella riga lo script si ferma.
+Senza quella riga lo script si ferma. Si lancia da `develop`, senza altre modifiche non committate oltre al changelog.
 
 Senza account Apple Developer (oggi):
 
@@ -51,18 +51,17 @@ Lo script:
 2. compila il sidecar `llama-helper`;
 3. lancia `tauri build` (app e dmg, senza modelli: si scaricano al primo avvio);
 4. scrive `latest.json`;
-5. pubblica la release `v0.2.0` su `cannoloops/dixit` con dmg, `.app.tar.gz`, `.sig` e `latest.json`, con le note di `docs/release-notes.md`.
-
-Fai il commit del cambio di versione.
+5. fa il commit `chore: versione 0.2.0` su `develop`, lo mergia in `main` e pusha i due branch;
+6. pubblica la release `v0.2.0` su `cannoloops/dixit` con dmg, `.app.tar.gz`, `.sig` e `latest.json`, con le note di `docs/release-notes.md`. Il tag punta al merge in `main`, cioè al codice compilato.
 
 **Windows.** Alla pubblicazione della release parte da sola la GitHub Action `build-windows.yml`, che in circa 25 minuti:
-1. compila Dixit per Windows alla versione del tag (anche se il cambio di versione non è ancora committato);
+1. compila Dixit per Windows alla versione del tag;
 2. aggiunge alla release `Dixit_<versione>_x64-setup.exe` e la sua firma `.exe.sig`;
 3. aggiunge la voce `windows-x86_64` a `latest.json`, accanto a quella del Mac.
 
 Finché non finisce, i Windows non vedono ancora l'aggiornamento; i Mac lo vedono subito. Se fallisce, si rilancia da Actions › Build and Test - Windows › Re-run.
 
-`scripts/release.sh 0.2.0 --dry-run` fa la stessa build senza notarizzazione e senza pubblicare. Serve a verificare il bundle in locale.
+`scripts/release.sh 0.2.0 --dry-run` fa la stessa build senza notarizzazione, senza commit e senza pubblicare. Serve a verificare il bundle in locale.
 
 ### Note di build su questo Mac
 

@@ -47,7 +47,7 @@ jobs:
         id: get-version
         shell: bash
         run: |
-          # release.sh bumps the version locally and may not commit it: on a release the tag wins.
+          # On a release the version comes from the tag (release.sh tags the merge in main).
           if [[ "${{ github.event_name }}" == "release" ]]; then
             VERSION="${GITHUB_REF_NAME#v}"
           else

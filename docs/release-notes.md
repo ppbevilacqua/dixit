@@ -1,5 +1,17 @@
-**Novità in 0.2.5**
-- Se una call finisce e ne inizia subito un'altra, la trascrizione della prima non va più persa e la trascrizione definitiva non si interrompe.
+**Novità in 0.2.9**
+- «Attiva e configura» nella presentazione degli agenti apre davvero Impostazioni › Automazione, dove trovi il server MCP già acceso.
+
+**Novità in 0.2.8**
+- Al primo avvio Dixit ti presenta gli agenti: un'animazione mostra Claude che cerca nelle tue riunioni. Puoi rivederla in Impostazioni › Automazione › Agenti.
+- Nella barra a sinistra, «Riassunti in corso» mostra i riassunti che stanno girando, a che punto sono (anche la percentuale della trascrizione definitiva) e una X per fermarli.
+- Il riassunto automatico di una singola riunione si può annullare: trascrizione e parlanti vanno avanti, e il riassunto lo generi quando vuoi.
+- Gli avvisi di Teams nei sottotitoli («Transcription has started…») non compaiono più come parlante.
+- Le maniglie delle tabelle del riassunto non escono più dal pannello quando scorre.
+
+**Novità in 0.2.7**
+- Puoi selezionare più riunioni ed eliminarle insieme; la cartella di una riunione eliminata finisce nel Cestino, così si può recuperare.
+- Con Teams in inglese, passare alla vista compatta non spezza più la registrazione in due riunioni.
+- Se elimini una riunione mentre Dixit la sta ancora elaborando, la sua cartella resta su disco e l'elaborazione arriva in fondo.
 
 Dixit registra, trascrive e riassume le riunioni di Teams, Zoom e Meet, tutto sul tuo Mac.
 
