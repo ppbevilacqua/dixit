@@ -10,7 +10,7 @@ const BROWSERS: &[&str] = &["chrome.exe", "msedge.exe", "brave.exe", "opera.exe"
 const TEAMS: &[&str] = &["ms-teams.exe", "teams.exe"];
 const ZOOM: &str = "zoom.exe";
 /// Window views that only exist during a Teams call (the same names `meeting_title` skips).
-const TEAMS_CALL_VIEWS: &[&str] = &["Visualizzazione compatta delle riunioni", "Compact meeting view"];
+const TEAMS_CALL_VIEWS: &[&str] = &["Visualizzazione compatta delle riunioni", "Meeting compact view", "Compact meeting view"];
 
 /// App kind of a ConsentStore entry: a packaged app (new Teams is `MSTeams_8wekyb3d8bbwe`) or a
 /// NonPackaged exe path written with `#` for `\`.
@@ -136,6 +136,18 @@ pub fn call_title(platform: Platform) -> Option<String> {
         Platform::Meet => meet_title(&wins).and_then(|t| platform::meeting_title(Platform::Meet, t)),
         Platform::Zoom => None,
     }
+}
+
+/// Whole title of the call window (Teams compact view, Meet tab without the browser tail), when it
+/// names a meeting: what the identity check compares with `platform::same_call`.
+pub fn call_window_title(platform: Platform) -> Option<String> {
+    let wins = windows();
+    let title = match platform {
+        Platform::Teams => teams_call_title(&wins),
+        Platform::Meet => meet_title(&wins),
+        Platform::Zoom => None,
+    }?;
+    platform::meeting_title(platform, title).is_some().then(|| title.to_string())
 }
 
 /// Meeting title for the platform, read when a session starts.
